@@ -144,7 +144,7 @@ function Main() {
 
             <Navbar style={{ backgroundColor: "#121212" }} variant="dark" expand="lg" className="shadow-sm">
                 <Container>
-                    <Navbar.Brand as={Link} to="/">🎮 My Game</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/">🎮 PS5 game library</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto d-flex align-items-center gap-2">
@@ -161,22 +161,15 @@ function Main() {
                                 style={{ display: "none" }}
                                 onChange={handleFileChange}
                             />
+                            <Button className="custom-button" onClick={() => setShowModal(true)}>새 게임 후기 작성</Button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
 
             <Container className="mt-5">
-                <Card className="p-4 text-center shadow-sm dark-card">
-                    <h2 style={{ fontSize: "1.8rem" }}>🎮 내 게임 기록</h2>
-                    <p style={{ fontSize: "1rem", color: "#CCC" }}>소중한 기록을 남겨보세요.</p>
-                </Card>
-
-                <div className="d-flex justify-content-end mt-4">
-                    <Button className="custom-button" onClick={() => setShowModal(true)}>새 게임 후기 작성</Button>
-                    <CreateModal onNoteCreated={handleNoteCreated} show={showModal} handleClose={() => setShowModal(false)} />
-                </div>
-
+            <CreateModal onNoteCreated={handleNoteCreated} show={showModal} handleClose={() => setShowModal(false)} />
+            
                 <Tabs activeKey={viewMode} onSelect={(k) => setViewMode(k)} className="mt-4">
                     <Tab eventKey="cards" title="카드 보기">
                         <div className="d-flex flex-wrap justify-content-center mt-4">
