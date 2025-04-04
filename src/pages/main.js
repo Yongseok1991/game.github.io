@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CreateModal from "./create";
 import ViewModal from "./view";
-import { Navbar, Nav, Container, Table, Card, Pagination, Button, Tab, Tabs } from "react-bootstrap";
+import { Navbar, Nav, Container, Table, Card, Pagination, Button, Tab, Tabs, Form } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import localStorageUtil from "./localStorageUtil";
 
@@ -11,25 +11,33 @@ function Main() {
     const [notes, setNotes] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
+
     const [viewMode, setViewMode] = useState("cards");
     const [showModal, setShowModal] = useState(false);
     const [showViewModal, setShowViewModal] = useState(false);
     const [selectedNote, setSelectedNote] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
     const fileInputRef = useRef(null);
 
     const fetchNotes = async () => {
         const allNotes = localStorageUtil.getData();
-        const pageSize = 8;
+        const filtered = allNotes.filter(note => note.title.toLowerCase().includes(searchTerm.toLowerCase()));
+        const pageSize = 12;
         const startIdx = currentPage * pageSize;
-        const paginated = allNotes.slice(startIdx, startIdx + pageSize);
+        const paginated = filtered.slice(startIdx, startIdx + pageSize);
 
         setNotes(paginated);
-        setTotalPages(Math.ceil(allNotes.length / pageSize));
+        setTotalPages(Math.ceil(filtered.length / pageSize));
     };
 
     useEffect(() => {
         fetchNotes();
-    }, [currentPage]);
+    }, [currentPage, searchTerm]);
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+        setCurrentPage(0);
+    };
 
     const handleNoteCreated = () => {
         fetchNotes();
@@ -140,14 +148,24 @@ function Main() {
                 .nav-link.active {
                     color: black !important;
                 }
+                      ::placeholder {
+                    color: #BBB !important;
+                }
             `}</style>
 
-            <Navbar style={{ backgroundColor: "#121212" }} variant="dark" expand="lg" className="shadow-sm">
+            <Navbar style={{ backgroundColor: "#121212", position: "fixed", width: "100%", top: 0, zIndex: 1000  }} variant="dark" expand="lg" className="shadow-sm">
                 <Container>
-                    <Navbar.Brand as={Link} to="/">🎮 PS5 game library</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/">🎮 PS5 Game Library</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto d-flex align-items-center gap-2">
+                            <Button
+                             variant="outline-light"
+                             className="custom-button"
+                             onClick={() => window.open("https://blog.ko.playstation.com/category/ps-plus/", "_blank")}
+                            >
+                           📰 PS Plus 블로그
+                            </Button>
                             <Button variant="outline-light" className="custom-button" onClick={handleExport}>
                                 💾 내보내기
                             </Button>
@@ -167,9 +185,15 @@ function Main() {
                 </Container>
             </Navbar>
 
-            <Container className="mt-5">
+            <Container className="mt-5 pt-4">
             <CreateModal onNoteCreated={handleNoteCreated} show={showModal} handleClose={() => setShowModal(false)} />
-            
+            <Form.Control
+                                type="text"
+                                placeholder="게임 타이틀 검색"
+                                value={searchTerm}
+                                onChange={handleSearchChange}
+                                 className="me-2 bg-dark text-light w-50"
+                            />
                 <Tabs activeKey={viewMode} onSelect={(k) => setViewMode(k)} className="mt-4">
                     <Tab eventKey="cards" title="카드 보기">
                         <div className="d-flex flex-wrap justify-content-center mt-4">
