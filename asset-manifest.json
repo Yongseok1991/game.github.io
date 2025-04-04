@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/game.github.io/static/css/main.ec4f608c.css",
-    "main.js": "/game.github.io/static/js/main.a86d95a7.js",
+    "main.js": "/game.github.io/static/js/main.189b4947.js",
     "static/js/453.8ab44547.chunk.js": "/game.github.io/static/js/453.8ab44547.chunk.js",
     "index.html": "/game.github.io/index.html",
     "main.ec4f608c.css.map": "/game.github.io/static/css/main.ec4f608c.css.map",
-    "main.a86d95a7.js.map": "/game.github.io/static/js/main.a86d95a7.js.map",
+    "main.189b4947.js.map": "/game.github.io/static/js/main.189b4947.js.map",
     "453.8ab44547.chunk.js.map": "/game.github.io/static/js/453.8ab44547.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ec4f608c.css",
-    "static/js/main.a86d95a7.js"
+    "static/js/main.189b4947.js"
   ]
 }
