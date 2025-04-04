@@ -17,7 +17,11 @@ const LocalStorageUtil = {
     // 현재 저장된 전체 데이터 가져오기
     getData() {
         const data = localStorage.getItem(STORAGE_KEY);
-        return JSON.parse(data).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        if(data) {
+           return JSON.parse(data).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) 
+        } else {
+            return []
+        }
     },
 
     // 전체 데이터 저장 (덮어쓰기)
@@ -28,7 +32,7 @@ const LocalStorageUtil = {
     // 새 아이템 추가
     addItem(item) {
         const current = this.getData();
-
+    
         // 가장 큰 id + 1 방식으로 고유 ID 생성
         const maxId = current.length ? Math.max(...current.map(i => i.id)) : 0;
         const newId = maxId + 1;
